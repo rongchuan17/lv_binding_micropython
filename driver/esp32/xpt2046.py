@@ -102,13 +102,15 @@ class xpt2046:
                 esp.gpio_set_direction(self.clk, esp.GPIO_MODE.OUTPUT)
 
                 ret = esp.spi_bus_initialize(self.spihost, buscfg, 1)
-                if ret != 0: raise RuntimeError("Failed initializing SPI bus")
+		str_1=f"{ret}Failed initializing SPI bus"
+                if ret != 0: raise RuntimeError(str_1)
 
 	# Attach the xpt2046 to the SPI bus
 
         ptr_to_spi = esp.C_Pointer()
 	ret = esp.spi_bus_add_device(self.spihost, devcfg, ptr_to_spi)
-        if ret != 0: raise RuntimeError("Failed adding SPI device")
+	str_2=f"{ret}Failed adding SPI device"
+        if ret != 0: raise RuntimeError(str_2)
         self.spi = ptr_to_spi.ptr_val
         
         # Prepare transactions. Each response is 16bit long
